@@ -24,7 +24,7 @@ void function StyleRuiSetup(){
 }
 void function UpdateElitistUI(){
     while(true){
-        RuiTopology_UpdateSphereArcs(file.PercentageBarTopo,(COCKPIT_RUI_WIDTH * file.SpeedGauge/4),(COCKPIT_RUI_HEIGHT * 0.017), COCKPIT_RUI_SUBDIV) //Update the bar
+        RuiTopology_UpdateSphereArcs(file.PercentageBarTopo,(COCKPIT_RUI_WIDTH * file.SpeedGauge/5),(COCKPIT_RUI_HEIGHT * 0.017), COCKPIT_RUI_SUBDIV) //Update the bar
         wait 0
     }
 }
