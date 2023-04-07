@@ -1,0 +1,46 @@
+{
+  "Name": "Legonzaur.ElitistRestrictionsRevamped",
+  "Description": "No campers, no strafing. Ape go fast.",
+  "LoadPriority": 2,
+  "RequiredOnClient": false,
+  "Version": "2.0.1",
+  "Scripts": [
+    {
+      "Path": "elitist.gnut",
+      "RunOn": "SERVER && MP",
+      "ServerCallback": {
+        "After": "Elitist_Init"
+      }
+    }
+  ],
+  "ConVars": [
+    {
+        "Name": "kill_slow_players",
+        "DefaultValue": "1"
+    },
+    {
+        "Name": "damage_slow_players",
+        "DefaultValue": "0"
+    },
+    {
+        "Name": "bar_speedgauge_counter",
+        "DefaultValue": "1"
+    },
+    {
+        "Name": "text_speedgauge_counter",
+        "DefaultValue": "0"
+    },
+    {
+        "Name": "burnmeter_speedgauge_counter",
+        "DefaultValue": "1"
+    },
+    {
+        "Name": "accepted_speed",
+        "DefaultValue": "260"
+    },
+    {
+        "Name": "speedgauge_multiplier",
+        "DefaultValue": "0.02"
+    }
+  ]
+}
