@@ -10,6 +10,7 @@ void function Elitist_UI_Init(){
     file.PercentageBarTopo = RuiTopology_CreateSphere(COCKPIT_RUI_OFFSET - <COCKPIT_RUI_WIDTH, -1, COCKPIT_RUI_HEIGHT*2>, <0, -1, 0>, <0, 0.00, -1>, COCKPIT_RUI_RADIUS, COCKPIT_RUI_WIDTH * 0.15, COCKPIT_RUI_HEIGHT * 0.003, COCKPIT_RUI_SUBDIV)
     StyleRuiSetup()
     thread UpdateElitistUI()
+    AddCallback_GameStateEnter( eGameState.Playing, NotifyClientPresence )
 }
 
 void function SetSpeedGauge(array <string> args){
@@ -26,4 +27,10 @@ void function UpdateElitistUI(){
         RuiTopology_UpdateSphereArcs(file.PercentageBarTopo,(COCKPIT_RUI_WIDTH * file.SpeedGauge/4),(COCKPIT_RUI_HEIGHT * 0.017), COCKPIT_RUI_SUBDIV) //Update the bar
         wait 0
     }
+}
+
+void function NotifyClientPresence(){
+    entity localPlayer = GetLocalClientPlayer()
+    if(!IsValid(localPlayer)) return
+    localPlayer.ClientCommand( "NotifyClientPresence")
 }

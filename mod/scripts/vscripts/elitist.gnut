@@ -12,6 +12,7 @@ struct {
     bool BurnMeterCounterEnabled
 } file
 
+array<entity> playerHasElitist
 
 void function Elitist_Init() {
     file.speedFetchInterval = 0.1
@@ -25,12 +26,8 @@ void function Elitist_Init() {
     file.BurnMeterCounterEnabled = (GetConVarInt("burnmeter_speedgauge_counter") == 1)
 
     if(file.KillSlowPlayersEnabled || file.DamageSlowPlayersEnabled){
-        // AddCallback_GameStateEnter( eGameState.Playing, TrackPlayerSpeed )
-
-        //Stop tracking speed after the match. Broken for epilogue, maybe ?
-        //AddCallback_GameStateEnter( eGameState.WinnerDetermined, StopTrackingPlayerSpeed )
         AddCallback_OnPlayerRespawned( TrackPlayerSpeed )
-        //AddCallback_OnClientConnected( TrackPlayerSpeed )
+        AddClientCommandCallback( "NotifyClientPresence", ElitistHasClient )
     }
 
     if(file.BurnMeterCounterEnabled){
@@ -51,12 +48,19 @@ void function Elitist_Init() {
 
 }
 
+bool function ElitistHasClient(entity player, array<string> args){
+    print("[Elitist] recieved HasClient")
+    playerHasElitist.append(player)
+    return true
+}
+
 void function TrackPlayerSpeed(entity player) {
     print("killslowplayers" + file.KillSlowPlayersEnabled)
     thread TrackPlayerSpeed_Threaded(player)
 }
 
 void function TrackPlayerSpeed_Threaded(entity player){
+    bool sendTextMessages = true
     wait 2
     wait file.graceTime
 
@@ -87,7 +91,10 @@ void function TrackPlayerSpeed_Threaded(entity player){
                     player.TakeDamage( 5, player, player, { damageSourceId = eDamageSourceId.mind_crime } )
                 }
             }
-            printCounter(player, counter, file.speedFetchInterval)
+            ServerToClientStringCommand(player, "SetSpeedGauge " + counter)
+            if(!playerHasElitist.contains(player)){
+                printCounter(player, counter, file.speedFetchInterval)
+            }
             wait 0
         }
     }
@@ -97,7 +104,7 @@ void function TrackPlayerSpeed_Threaded(entity player){
 }
 
 void function printCounter(entity player, float counter, float duration){
-    ServerToClientStringCommand(player, "SetSpeedGauge " + counter)
+
     if(file.BarCounterEnabled){
         string message = ""
         for(int i=0; i<counter*20; i++){

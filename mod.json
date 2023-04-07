@@ -23,7 +23,7 @@
   "ConVars": [
     {
         "Name": "kill_slow_players",
-        "DefaultValue": "1"
+        "DefaultValue": "0"
     },
     {
         "Name": "damage_slow_players",
@@ -31,7 +31,7 @@
     },
     {
         "Name": "bar_speedgauge_counter",
-        "DefaultValue": "1"
+        "DefaultValue": "0"
     },
     {
         "Name": "text_speedgauge_counter",
