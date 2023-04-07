@@ -32,7 +32,7 @@
     },
     {
         "Name": "burnmeter_speedgauge_counter",
-        "DefaultValue": "1"
+        "DefaultValue": "0"
     },
     {
         "Name": "accepted_speed",
