@@ -68,26 +68,28 @@ void function TrackPlayerSpeed_Threaded(entity player){
 
         if(GetGameState() == eGameState.WinnerDetermined) return
         if(! IsValid(player)) return
-        vector velocity = player.GetVelocity()
-        float playerVel = sqrt(velocity.x * velocity.x + velocity.y * velocity.y) // Keep only horizontal velocity
-        counter -= ((file.acceptedSpeed - playerVel)*file.counterMultiplier)*(file.speedFetchInterval*0.1)
+        if(!player.IsPhaseShifted()){
+            vector velocity = player.GetVelocity()
+            float playerVel = sqrt(velocity.x * velocity.x + velocity.y * velocity.y) // Keep only horizontal velocity
+            counter -= ((file.acceptedSpeed - playerVel)*file.counterMultiplier)*(file.speedFetchInterval*0.1)
 
-        if(counter > 1){
-            counter = 1
-        }else if(counter <= 0){
-            counter = 0
-            if(file.KillSlowPlayersEnabled){
-                //SendHudMessage( player, "You died because you were too slow", -1, 0.5, 255, 255, 255, 255, 0.15, 3.0, 0.5 )
-                player.TakeDamage( player.GetHealth(), player, player, { damageSourceId = eDamageSourceId.mind_crime } )
-                return;
+            if(counter > 1){
+                counter = 1
+            }else if(counter <= 0){
+                counter = 0
+                if(file.KillSlowPlayersEnabled){
+                    //SendHudMessage( player, "You died because you were too slow", -1, 0.5, 255, 255, 255, 255, 0.15, 3.0, 0.5 )
+                    player.TakeDamage( player.GetHealth(), player, player, { damageSourceId = eDamageSourceId.mind_crime } )
+                    return;
+                }
+                else if(file.DamageSlowPlayersEnabled){
+                    //eDamageSourceId.mp_extreme_environment
+                    player.TakeDamage( 5, player, player, { damageSourceId = eDamageSourceId.mind_crime } )
+                }
             }
-            else if(file.DamageSlowPlayersEnabled){
-                //eDamageSourceId.mp_extreme_environment
-                player.TakeDamage( 5, player, player, { damageSourceId = eDamageSourceId.mind_crime } )
-            }
+            printCounter(player, counter, file.speedFetchInterval)
+            wait 0
         }
-        printCounter(player, counter, file.speedFetchInterval)
-        wait 0
     }
     OnThreadEnd( function() : (){
         print( "onend" )

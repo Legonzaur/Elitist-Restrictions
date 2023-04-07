@@ -6,18 +6,15 @@ struct {
 } file
 
 void function Elitist_UI_Init(){
-    print("heth eth ethet")
     AddServerToClientStringCommandCallback( "SetSpeedGauge", SetSpeedGauge )
-    file.PercentageBarTopo = RuiTopology_CreateSphere(COCKPIT_RUI_OFFSET - <0, 82, -21>, <0, -1, 0.037>, <0, 0.00, -1>, COCKPIT_RUI_RADIUS, COCKPIT_RUI_WIDTH * 0.15, COCKPIT_RUI_HEIGHT * 0.003, COCKPIT_RUI_SUBDIV)
+    file.PercentageBarTopo = RuiTopology_CreateSphere(COCKPIT_RUI_OFFSET - <COCKPIT_RUI_WIDTH, -1, COCKPIT_RUI_HEIGHT*2>, <0, -1, 0>, <0, 0.00, -1>, COCKPIT_RUI_RADIUS, COCKPIT_RUI_WIDTH * 0.15, COCKPIT_RUI_HEIGHT * 0.003, COCKPIT_RUI_SUBDIV)
     StyleRuiSetup()
     thread UpdateElitistUI()
 }
 
 void function SetSpeedGauge(array <string> args){
-    print("heth eth ethet")
     if(args.len() > 0 ){
         file.SpeedGauge = float(args[0])
-        print(file.SpeedGauge)
     }
 }
 
@@ -26,7 +23,7 @@ void function StyleRuiSetup(){
 }
 void function UpdateElitistUI(){
     while(true){
-        RuiTopology_UpdateSphereArcs(file.PercentageBarTopo,(COCKPIT_RUI_WIDTH * file.SpeedGauge),(COCKPIT_RUI_HEIGHT * 0.017), COCKPIT_RUI_SUBDIV) //Update the bar
+        RuiTopology_UpdateSphereArcs(file.PercentageBarTopo,(COCKPIT_RUI_WIDTH * file.SpeedGauge/4),(COCKPIT_RUI_HEIGHT * 0.017), COCKPIT_RUI_SUBDIV) //Update the bar
         wait 0
     }
 }
