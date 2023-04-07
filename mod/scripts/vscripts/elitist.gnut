@@ -95,8 +95,8 @@ void function TrackPlayerSpeed_Threaded(entity player){
             if(!playerHasElitist.contains(player)){
                 printCounter(player, counter, file.speedFetchInterval)
             }
-            wait 0
         }
+        wait 0
     }
     OnThreadEnd( function() : (){
         print( "onend" )
