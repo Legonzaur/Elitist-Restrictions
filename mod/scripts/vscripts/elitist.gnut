@@ -69,10 +69,9 @@ void function TrackPlayerSpeed_Threaded(entity player){
         player.EndSignal( "OnDestroy" )
 	    player.EndSignal( "OnDeath" )
         Assert( IsValid( player ) )
-
         if(GetGameState() == eGameState.WinnerDetermined) return
         if(! IsValid(player)) return
-        if(!player.IsPhaseShifted()){
+        if(!player.IsPhaseShifted() && !player.IsTitan()){
             vector velocity = player.GetVelocity()
             float playerVel = sqrt(velocity.x * velocity.x + velocity.y * velocity.y) // Keep only horizontal velocity
             counter -= ((file.acceptedSpeed - playerVel)*file.counterMultiplier)*(file.speedFetchInterval*0.1)
