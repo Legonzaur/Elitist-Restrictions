@@ -11,6 +11,13 @@
       "ServerCallback": {
         "After": "Elitist_Init"
       }
+    },
+    {
+      "Path": "elitist_ui.gnut",
+      "RunOn": "CLIENT",
+      "ClientCallback": {
+        "Before": "Elitist_UI_Init"
+      }
     }
   ],
   "ConVars": [

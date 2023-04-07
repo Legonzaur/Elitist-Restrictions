@@ -30,7 +30,7 @@ void function Elitist_Init() {
         //Stop tracking speed after the match. Broken for epilogue, maybe ?
         //AddCallback_GameStateEnter( eGameState.WinnerDetermined, StopTrackingPlayerSpeed )
         AddCallback_OnPlayerRespawned( TrackPlayerSpeed )
-        AddCallback_OnClientConnected( TrackPlayerSpeed )
+        //AddCallback_OnClientConnected( TrackPlayerSpeed )
     }
 
     if(file.BurnMeterCounterEnabled){
@@ -66,8 +66,7 @@ void function TrackPlayerSpeed_Threaded(entity player){
 	    player.EndSignal( "OnDeath" )
         Assert( IsValid( player ) )
 
-        if(GetGameState() == eGameState.WinnerDetermined)
-        return
+        if(GetGameState() == eGameState.WinnerDetermined) return
         if(! IsValid(player)) return
         vector velocity = player.GetVelocity()
         float playerVel = sqrt(velocity.x * velocity.x + velocity.y * velocity.y) // Keep only horizontal velocity
